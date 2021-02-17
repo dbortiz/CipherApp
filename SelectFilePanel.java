@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SelectFilePanel extends JPanel{
-    static File selectedFile;
+    private String selectedFile;
 
     public SelectFilePanel(JFrame frame) {
         // Creates layout for panel
@@ -31,8 +31,10 @@ public class SelectFilePanel extends JPanel{
                 int option = fileChooser.showOpenDialog(frame);
 
                 if (option == JFileChooser.APPROVE_OPTION) {
-                    selectedFile = fileChooser.getSelectedFile();
-                    fileSelectedLabel.setText(selectedFile.getName() + " has been selected.");
+                    File file;
+                    file = fileChooser.getSelectedFile();
+                    selectedFile = file.getAbsolutePath();
+                    fileSelectedLabel.setText(file.getName() + " has been selected.");
                 } else {
                     fileSelectedLabel.setText("No file chosen.");
                 }
@@ -42,5 +44,9 @@ public class SelectFilePanel extends JPanel{
         this.add(label);
         this.add(button);
         this.add(fileSelectedLabel);
+    }
+
+    public String getFile() {
+        return selectedFile;
     }
 }

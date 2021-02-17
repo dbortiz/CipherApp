@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SelectKeyPanel extends JPanel{
+    private String k;
+
     SelectKeyPanel() {
         // Creates layout for panel
         this.setLayout(new FlowLayout());
@@ -35,9 +37,15 @@ public class SelectKeyPanel extends JPanel{
             }
         });
 
+        k = new String(key.getPassword());
+
         // Add components to panel
         this.add(label);
         this.add(key);
         this.add(view);
+    }
+
+    public String getKey(){
+        return k;
     }
 }
