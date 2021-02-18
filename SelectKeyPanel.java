@@ -8,7 +8,7 @@ public class SelectKeyPanel extends JPanel{
 
     SelectKeyPanel() {
         // Creates layout for panel
-        this.setLayout(new FlowLayout());
+        this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Components for key selection
         final JLabel label = new JLabel("Enter key: ");
