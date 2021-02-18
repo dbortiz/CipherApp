@@ -7,7 +7,8 @@ public class MainTest {
     private static SelectCipherPanel selectCipher;
     private static SelectKeyPanel selectKey;
     private static EncryptOrDecryptPanel encryptOrDecrypt;
-
+    private static JLabel errorLabel;
+    
     public static void main(String[] args) {
         JFrame frame = new Frame();
        
@@ -17,6 +18,10 @@ public class MainTest {
         selectKey = new SelectKeyPanel();
         encryptOrDecrypt = new EncryptOrDecryptPanel();
         JButton button = new JButton("Submit");
+        errorLabel = new JLabel();
+
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Add components
         frame.getContentPane().add(selectFile, 0);
@@ -24,26 +29,33 @@ public class MainTest {
         frame.getContentPane().add(selectKey, 2);
         frame.getContentPane().add(encryptOrDecrypt, 3);
         frame.add(button, 4);
+        frame.add(errorLabel, 5);
 
         // Action listener for 'submit' button
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Cipher c;
-                String file = selectFile.getFile();
                 String cipher = selectCipher.getCipher();
                 String key = selectKey.getKey();
-                String mode = encryptOrDecrypt.getMode();
-                
-                // Performs selected mode on selected file with selected cipher using selected key
-                c = selectCipher(cipher, key, mode);
-                if (mode.equals("Encrypt")) {
-                    c.encrypt(file);
-                } else {
-                    c.decrypt(file);
+                String file = selectFile.getFile();
+
+                if (fileChecker(file) && keyChecker(cipher, key)){
+                    Cipher c;
+                    String mode = encryptOrDecrypt.getMode();
+                    
+                    // Performs selected mode on selected file with selected cipher using selected key
+                    c = selectCipher(cipher, key, mode);
+                    if (mode.equals("Encrypt")) {
+                        c.encrypt(file);
+                    } else {
+                        c.decrypt(file);
+                    }
+                    errorLabel.setText("Success!");
                 }
             }
         });
 
+        frame.setPreferredSize(new Dimension(450,300));
+        frame.pack();
         frame.setVisible(true);
     }
 
@@ -73,5 +85,40 @@ public class MainTest {
         }
 
         return selected;
+    }
+
+    // Private method to check if the key for the selected cipher is appropriate
+    private static Boolean keyChecker(String cipher, String key) {
+        if (key.length() == 0) {
+            errorLabel.setText("Please use a whole number greater than 0.");
+            return false;
+        }
+
+        if (cipher.equals("Caesar") || cipher.equals("Row Transposition") || cipher.equals("Rail Fence")) {
+            for (char c : key.toCharArray()) {
+                if (!Character.isDigit(c) || Character.getNumericValue(c) < 1) {
+                    errorLabel.setText("Please use a whole number greater than 0.");
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            for (char c : key.toCharArray()) {
+                if (!Character.isLetter(c)) {
+                    errorLabel.setText("Please use a key of letters with no spaces, digits, or special characters.");
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    // Check to see if a file has been chosen
+    private static Boolean fileChecker(String fileName) {
+        if (fileName == null) {
+            errorLabel.setText("Please select a text file.");
+            return false;
+        }
+        return true;
     }
 }
