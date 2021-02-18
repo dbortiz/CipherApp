@@ -7,11 +7,11 @@ public class EncryptOrDecryptPanel extends JPanel{
 
     EncryptOrDecryptPanel() {
         // Creates layout for panel
-        this.setLayout(new FlowLayout());
+        this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Components for panel
         JLabel label = new JLabel("Encrypt/Decrypt: ");
-        JRadioButton encrypt = new JRadioButton("Encrypt");
+        JRadioButton encrypt = new JRadioButton("Encrypt", true);
         JRadioButton decrypt = new JRadioButton("Decrypt");
         ButtonGroup selection = new ButtonGroup();
 
