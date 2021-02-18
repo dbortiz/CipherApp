@@ -3,7 +3,8 @@ import java.util.Scanner;
 public class Cipher {
     protected String key;
     protected String encryptionOrDecryption;
-    
+    protected String alphabet = "abcdefghijklmnopqrstuvwxyz";
+
     public Cipher(String key, String encryptionOrDecryption) {
         this.key = key;
         this.encryptionOrDecryption = encryptionOrDecryption;
