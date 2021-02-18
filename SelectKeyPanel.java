@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 public class SelectKeyPanel extends JPanel{
     private String k;
+    private JPasswordField key;
 
     SelectKeyPanel() {
         // Creates layout for panel
@@ -11,7 +12,7 @@ public class SelectKeyPanel extends JPanel{
 
         // Components for key selection
         final JLabel label = new JLabel("Enter key: ");
-        final JPasswordField key = new JPasswordField(10);
+        key = new JPasswordField(10);
         key.setEchoChar('*');
 
         // Resize password viewer
@@ -37,8 +38,6 @@ public class SelectKeyPanel extends JPanel{
             }
         });
 
-        k = new String(key.getPassword());
-
         // Add components to panel
         this.add(label);
         this.add(key);
@@ -46,6 +45,6 @@ public class SelectKeyPanel extends JPanel{
     }
 
     public String getKey(){
-        return k;
+        return new String(key.getPassword());
     }
 }
