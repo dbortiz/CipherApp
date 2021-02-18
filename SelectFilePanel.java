@@ -9,7 +9,7 @@ public class SelectFilePanel extends JPanel{
 
     public SelectFilePanel(JFrame frame) {
         // Creates layout for panel
-        this.setLayout(new FlowLayout());
+        this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Components
         final JLabel label = new JLabel("Select File: ");
@@ -36,6 +36,7 @@ public class SelectFilePanel extends JPanel{
                     selectedFile = file.getAbsolutePath();
                     fileSelectedLabel.setText(file.getName() + " has been selected.");
                 } else {
+                    selectedFile = null;
                     fileSelectedLabel.setText("No file chosen.");
                 }
             }
