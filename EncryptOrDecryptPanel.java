@@ -14,6 +14,7 @@ public class EncryptOrDecryptPanel extends JPanel{
         JRadioButton encrypt = new JRadioButton("Encrypt", true);
         JRadioButton decrypt = new JRadioButton("Decrypt");
         ButtonGroup selection = new ButtonGroup();
+        mode = "Encrypt";
 
         // Add components to button group
         selection.add(encrypt);
@@ -21,6 +22,7 @@ public class EncryptOrDecryptPanel extends JPanel{
 
         // Implement ActionListener for each individual button
         ActionListener listener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 AbstractButton button = (AbstractButton) e.getSource();
                 mode = button.getText();
