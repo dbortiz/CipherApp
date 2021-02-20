@@ -68,17 +68,21 @@ public class MainTest {
                 break;
             /*
             case "Hill":
-                c = new Hill(key, mode);
+                selected = new Hill(key, mode);
+            */
             case "Monoalphabetic":
-                c = new Monoalphabetic(key, mode);
+                selected = new Monoalphabetic(key, mode);
+                break;
             case "Playfair":
-                c = new Playfair(key, mode);
+                selected = new Playfair(key, mode);
+                break;
+            /*
             case "Rail Fence":
-                c = new RailFence(key, mode);
+                selected = new RailFence(key, mode);
             case "Row Transposition":
-                c = new RowTransposition(key, mode);
+                selected = new RowTransposition(key, mode);
             case "Vigenere":
-                c = new Vigenere(key, mode);
+                selected = new Vigenere(key, mode);
             */
             default:
                 System.out.println("oops in here");
