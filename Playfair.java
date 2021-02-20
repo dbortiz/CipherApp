@@ -80,12 +80,89 @@ class Playfair extends Cipher{
             messageWriter.close();
             messageReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File error: Monoalphabetic");
+            System.out.println("File error: Playfair");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("File error: Monoalphabetic");
+            System.out.println("File error: Playfair");
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void decrypt(String fileName) {
+        try {
+            File message = new File(fileName);
+            FileWriter messageWriter = new FileWriter(fileName.substring(0, fileName.length()-4) + "_DECRYPTED.txt");
+            Scanner messageReader = new Scanner(message);
+            String k = this.key.toLowerCase();
+            char[][] encoder = this.populateEncoder(k);
+
+            while (messageReader.hasNextLine()) {
+                String line = messageReader.nextLine().toLowerCase();
+                ArrayList<Character> messageLetters = new ArrayList<Character>();
+                ArrayList<Character> specialLetters = new ArrayList<Character>();
+                ArrayList<Integer> specialLettersPos = new ArrayList<Integer>();
+
+                // Get characters of line and separate them to their appropriate ArrayList
+                int pos = 0;
+                for (char c : line.toLowerCase().toCharArray()) {
+                    if (Character.isLetter(c)){
+                        messageLetters.add(c);
+                    } else {
+                        specialLetters.add(c);
+                        specialLettersPos.add(pos);
+                    }
+                    pos++;
+                }
+                
+
+                // Playfair decryption
+                ArrayList<Character> decryptedMessage = new ArrayList<Character>();
+                for(int i = 0; i < messageLetters.size(); i+=2) {
+                    char one = messageLetters.get(i);
+                    char two = messageLetters.get(i+1);
+
+                    int[] indexOne = this.findIndex(encoder, one);
+                    int[] indexTwo = this.findIndex(encoder, two);
+
+                    // Same row
+                    if (indexOne[0] == indexTwo[0]) {
+                        decryptedMessage.add(encoder[indexOne[0]][(indexOne[1] + 4) % 5]);
+                        decryptedMessage.add(encoder[indexTwo[0]][(indexTwo[1] + 4) % 5]);
+
+                    // Same column
+                    } else if (indexOne[1] == indexTwo[1]) {
+                        decryptedMessage.add(encoder[(indexOne[0] + 4) % 5][indexOne[1]]);
+                        decryptedMessage.add(encoder[(indexTwo[0] + 4) % 5][indexTwo[1]]);
+
+                    // Across from each other
+                    } else {
+                        decryptedMessage.add(encoder[indexOne[0]][indexTwo[1]]);
+                        decryptedMessage.add(encoder[indexTwo[0]][indexOne[1]]);
+                    }
+                }
+
+                // Adds special characters from original message into encrypted message
+                for(int i = 0; i < specialLetters.size(); i++) {
+                    decryptedMessage.add(specialLettersPos.get(i), specialLetters.get(i));
+                }
+
+                // Writes encrypted message to file
+                for(char c : decryptedMessage) {
+                    messageWriter.write(c);
+                }
+            }
+            messageWriter.close();
+            messageReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File error: Playfair");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("File error: Playfair");
+            e.printStackTrace();
+        }
+        
+        
     }
 
     // 2D matrix encoder used to encrypt/decrypt message
