@@ -5,6 +5,8 @@ pipeline {
 		stage('Build') {
 			steps {
 				echo 'Building...'
+				javac /home/dan/Projects/CipherApp/MainTest.java
+				echo 'Building complete'
 			}
 		}
 		stage('Test') {
@@ -15,6 +17,7 @@ pipeline {
 		stage('Deploy') {
 			steps {
 				echo 'Deploying...'
+				java /home/dan/Projects/CipherApp/MainTest
 			}
 		}
 
